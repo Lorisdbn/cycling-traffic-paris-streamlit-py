@@ -11,14 +11,16 @@ permissions:
 
 jobs:
   visit:
-    runs-on: ubuntu-latest
+    # Pinned: Playwright does not support every new Ubuntu release on day one
+    # (ubuntu-latest moved to 26.04 and broke the Chromium install).
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install Playwright and Chromium
         working-directory: .github/scripts
@@ -32,7 +34,7 @@ jobs:
 
       - name: Upload screenshot
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: keep-awake-screenshot
           path: .github/scripts/keep-awake.png
